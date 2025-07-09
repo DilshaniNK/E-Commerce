@@ -1,0 +1,10 @@
+package com.Code.domain;
+
+public enum PaymentStatus {
+
+    PENDING,
+    PROCESSING,
+    COMPLETED,
+    FAILED
+
+}

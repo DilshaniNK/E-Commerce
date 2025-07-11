@@ -1,4 +1,8 @@
 package com.Code.repository;
 
-public class CartRepository {
+import com.Code.model.Cart;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CartRepository extends JpaRepository<Cart,Long> {
+
 }

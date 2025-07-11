@@ -1,5 +1,4 @@
 package com.Code.config;
 
-public class jwtProvider {
-
+public class JwtProvider {
 }

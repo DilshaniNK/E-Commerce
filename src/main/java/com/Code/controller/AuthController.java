@@ -5,6 +5,7 @@ import com.Code.domain.USER_ROLE;
 import com.Code.model.User;
 import com.Code.model.VerificationCode;
 import com.Code.repository.UserRepository;
+import com.Code.request.LoginRequest;
 import com.Code.response.ApiResponse;
 import com.Code.response.AuthResponse;
 import com.Code.response.SignupRequest;
@@ -47,5 +48,12 @@ public class AuthController {
 
 
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/signing")
+    public ResponseEntity<AuthResponse> LoginHandler(@RequestBody LoginRequest req) throws Exception {
+
+        AuthResponse authResponse= authService.signing(req);
+        return ResponseEntity.ok(authResponse);
     }
 }

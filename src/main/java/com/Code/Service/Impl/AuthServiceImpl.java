@@ -5,9 +5,11 @@ import com.Code.Service.EmailService;
 import com.Code.config.JwtProvider;
 import com.Code.domain.USER_ROLE;
 import com.Code.model.Cart;
+import com.Code.model.Seller;
 import com.Code.model.User;
 import com.Code.model.VerificationCode;
 import com.Code.repository.CartRepository;
+import com.Code.repository.SellerRepository;
 import com.Code.repository.UserRepository;
 import com.Code.repository.VerificationCodeRepository;
 import com.Code.request.LoginRequest;
@@ -43,19 +45,30 @@ public class AuthServiceImpl implements AuthService {
     private final VerificationCodeRepository verificationCodeRepository;
     private final EmailService emailService;
     private final CustomUserServiceImpl customUserService;
+    private final SellerRepository sellerRepository;
 
     @Override
-    public void sendLoginOtp(String email) throws Exception {
-        String SIGNING_PREFIX = "signin_";
-
+    public void sendLoginOtp(String email, USER_ROLE role) throws Exception {
+        String SIGNING_PREFIX = "signing_";
+//        String SELLER_PREFIX = "seller_";
         if (email.startsWith(SIGNING_PREFIX)) {
             email = email.substring(SIGNING_PREFIX.length());
 
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                throw new Exception("User not found with provided email");
+            if(role.equals(USER_ROLE.ROLE_SELLER)){
+                Seller seller = sellerRepository.findByEmail(email);
+                if(seller == null){
+                    throw new Exception("Seller not found with provided email");
+                }
 
             }
+            else{
+                User user = userRepository.findByEmail(email);
+                if (user == null) {
+                    throw new Exception("User not found with provided email");
+
+                }
+            }
+
         }
         VerificationCode isExist = verificationCodeRepository.findByEmail(email);
         if (isExist != null) {

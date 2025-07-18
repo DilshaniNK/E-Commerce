@@ -5,6 +5,7 @@ import com.Code.domain.USER_ROLE;
 import com.Code.model.User;
 import com.Code.model.VerificationCode;
 import com.Code.repository.UserRepository;
+import com.Code.request.LoginOtpRequest;
 import com.Code.request.LoginRequest;
 import com.Code.response.ApiResponse;
 import com.Code.response.AuthResponse;
@@ -38,9 +39,9 @@ public class AuthController {
     }
 
     @PostMapping("/sent/login-signup-otp")
-    public ResponseEntity<ApiResponse> sentOtpHandler(@RequestBody VerificationCode req) throws Exception {
+    public ResponseEntity<ApiResponse> sentOtpHandler(@RequestBody LoginOtpRequest req) throws Exception {
 
-        authService.sendLoginOtp(req.getEmail());
+        authService.sendLoginOtp(req.getEmail(),req.getRole());
 
         ApiResponse res = new ApiResponse();
 

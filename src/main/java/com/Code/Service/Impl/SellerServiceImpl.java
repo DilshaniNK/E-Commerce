@@ -28,17 +28,17 @@ public class SellerServiceImpl implements SellerService {
     private final AddressRepository addressRepository;
 
     @Override
-    public Seller getSellerProfile(String jwt) throws Exception {
+    public Seller getSellerProfile(String jwt) throws sellerException{
         String email = jwtProvider.getEmailFromJwtToken(jwt);
         return this.getSellerByEmail(email);
 
     }
 
     @Override
-    public Seller createSeller(Seller seller) throws Exception {
+    public Seller createSeller(Seller seller) throws sellerException {
         Seller sellerExists = sellerRepository.findByEmail(seller.getEmail());
         if(sellerExists != null) {
-            throw new Exception("this email address already used");
+            throw new sellerException("this email address already used");
         }
         Address savedAddress = addressRepository.save(seller.getPrickupAddress());
         Seller newSeller = new Seller();
@@ -62,10 +62,10 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller getSellerByEmail(String email) throws Exception {
+    public Seller getSellerByEmail(String email) throws sellerException {
         Seller seller = sellerRepository.findByEmail(email);
         if(seller == null){
-            throw new Exception("Seller not found");
+            throw new sellerException("Seller not found");
         }
         return seller;
     }
@@ -76,7 +76,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller updateSeller(Long id, Seller seller) throws Exception {
+    public Seller updateSeller(Long id, Seller seller) throws sellerException {
         Seller existingSeller = this.getSellerById(id);
         if(seller.getSellerName() != null){
             existingSeller.setSellerName(seller.getSellerName());
@@ -121,23 +121,23 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void deleteSeller(Long id) throws Exception {
+    public void deleteSeller(Long id) throws sellerException {
         Seller seller = getSellerById(id);
         if(seller == null){
-            throw new Exception("Seller not found with id"+ id);
+            throw new sellerException("Seller not found with id"+ id);
         }
         sellerRepository.delete(seller);
     }
 
     @Override
-    public Seller verifyEmail(String email, String otp) throws Exception {
+    public Seller verifyEmail(String email, String otp) throws sellerException {
         Seller seller = getSellerByEmail(email);
         seller.setEmailVerified(true);
         return sellerRepository.save(seller);
     }
 
     @Override
-    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws Exception {
+    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws sellerException {
         Seller seller = getSellerById(sellerId);
         seller.setAccountStatus(status);
         return sellerRepository.save(seller);

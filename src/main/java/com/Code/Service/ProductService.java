@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProductService {
     public Product createProduct(CreateProductRequest req , Seller seller);
-    public List<Product> searchProducts();
+    public List<Product> searchProducts(String query);
     Product findProductById(Long productId) throws productException;
     public Product updateProduct(Long productId, Product product) throws productException;
     public void deleteProduct(Long productId) throws productException;

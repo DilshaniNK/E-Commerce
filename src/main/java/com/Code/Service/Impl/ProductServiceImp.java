@@ -86,9 +86,9 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<Product> searchProducts() {
+    public List<Product> searchProducts(String query) {
 
-        return List.of();
+        return productRepository.searchProduct(query);
     }
 
     @Override
@@ -165,6 +165,6 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getProductBySellerId(Long sellerId) {
-        return List.of();
+        return productRepository.findBySellerId(sellerId);
     }
 }

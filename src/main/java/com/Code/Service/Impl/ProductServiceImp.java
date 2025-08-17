@@ -1,6 +1,7 @@
 package com.Code.Service.Impl;
 
 import com.Code.Service.ProductService;
+import com.Code.exception.productException;
 import com.Code.model.Category;
 import com.Code.model.Product;
 import com.Code.model.Seller;
@@ -83,17 +84,22 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Product findProductById(Long productId) {
-        return null;
+    public Product findProductById(Long productId) throws productException {
+
+        return productRepository.findById(productId).orElseThrow(()->
+                new productException("Product not found with id"+ productId));
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) {
-        return null;
+    public Product updateProduct(Long productId, Product product) throws productException {
+        findProductById(productId);
+        product.setId(productId);
+        return productRepository.save(product);
+
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(Long productId) throws productException {
         Product product = findProductById(productId);
         productRepository.delete(product);
     }

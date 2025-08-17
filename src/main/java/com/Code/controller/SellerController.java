@@ -5,6 +5,7 @@ import com.Code.Service.AuthService;
 import com.Code.Service.EmailService;
 import com.Code.Service.SellerService;
 import com.Code.domain.AccountStatus;
+import com.Code.exception.sellerException;
 import com.Code.model.Seller;
 import com.Code.model.SellerReport;
 import com.Code.model.User;
@@ -26,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/seller")
+@RequestMapping("/sellers")
 public class SellerController {
 
     private final SellerService sellerService;
@@ -40,8 +41,11 @@ public class SellerController {
     public ResponseEntity<AuthResponse> loginSeller(@RequestBody LoginRequest req) throws Exception {
 
         String otp = req.getOtp();
-        String email = req.getEmail();
-        req.setEmail("seller_" + email);
+        String email = "seller_" + req.getEmail();
+        req.setEmail(email);
+
+
+
 
         AuthResponse authResponse = authService.signing(req);
         return ResponseEntity.ok(authResponse);
@@ -74,8 +78,8 @@ public class SellerController {
             return new ResponseEntity<>(savedSeller, HttpStatus.CREATED);
     }
 
-    @GetMapping("{/id}")
-    public ResponseEntity<Seller> getSellerById(@PathVariable Long id) throws Exception {
+    @GetMapping("/{id}")
+    public ResponseEntity<Seller> getSellerById(@PathVariable Long id) throws sellerException {
         Seller seller = sellerService.getSellerById(id);
         return new ResponseEntity<>(seller,HttpStatus.OK);
     }

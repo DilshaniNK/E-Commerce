@@ -5,6 +5,7 @@ import com.Code.Service.SellerService;
 import com.Code.config.JwtProvider;
 import com.Code.domain.AccountStatus;
 import com.Code.domain.USER_ROLE;
+import com.Code.exception.sellerException;
 import com.Code.model.Address;
 import com.Code.model.Seller;
 import com.Code.repository.AddressRepository;
@@ -55,9 +56,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller getSellerById(Long id) throws Exception {
+    public Seller getSellerById(Long id) throws sellerException {
         return sellerRepository.findById(id)
-                .orElseThrow(()-> new Exception("Seller not found with id"+ id));
+                .orElseThrow(()-> new sellerException("Seller not found with id"+ id));
     }
 
     @Override

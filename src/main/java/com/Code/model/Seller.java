@@ -15,6 +15,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class Seller {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String sellerName;

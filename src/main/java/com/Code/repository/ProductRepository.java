@@ -1,4 +1,8 @@
 package com.Code.repository;
 
-public interface ProductRepository {
+import com.Code.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
 }

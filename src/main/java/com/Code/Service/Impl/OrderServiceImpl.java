@@ -110,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order cancleOrder(Long orderId, User user) throws Exception {
+    public Order cancelOrder(Long orderId, User user) throws Exception {
         Order order = orderRepository.findOrderById(orderId);
         if(user.getId().equals(order.getUser().getId())){
             order.setOrderStatus(OrderStatus.CANCELLED);
@@ -119,6 +119,13 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("you don't have access to cancle this order");
         }
 
+
+    }
+
+    @Override
+    public OrderItem getOrderItemById(Long id) throws Exception {
+        return orderItemRepository.findById(id).orElseThrow(() ->
+                new Exception("OderItem not exist ......."));
 
     }
 }

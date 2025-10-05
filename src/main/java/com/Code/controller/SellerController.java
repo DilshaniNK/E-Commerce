@@ -3,13 +3,16 @@ package com.Code.controller;
 
 import com.Code.Service.AuthService;
 import com.Code.Service.EmailService;
+import com.Code.Service.SellerReportService;
 import com.Code.Service.SellerService;
+import com.Code.config.JwtProvider;
 import com.Code.domain.AccountStatus;
 import com.Code.exception.sellerException;
 import com.Code.model.Seller;
 import com.Code.model.SellerReport;
 import com.Code.model.User;
 import com.Code.model.VerificationCode;
+import com.Code.repository.SellerReportRepository;
 import com.Code.repository.SellerRepository;
 import com.Code.repository.VerificationCodeRepository;
 import com.Code.request.LoginOtpRequest;
@@ -35,6 +38,9 @@ public class SellerController {
     private final AuthService authService;
     private final SellerRepository sellerRepository;
     private final EmailService emailService;
+    private final JwtProvider jwtProvider;
+
+    private final SellerReportService sellerReportService;
 
 
     @PostMapping("/login")
@@ -90,10 +96,14 @@ public class SellerController {
         return new ResponseEntity<>(seller,HttpStatus.OK);
     }
 
-//    @GetMapping("/report")
-//    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader ("Authorization") String jwt) throws Exception {
-//
-//    }
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader ("Authorization") String jwt) throws Exception {
+
+        Seller seller = sellerService.getSellerProfile(jwt);
+        SellerReport sellerReport = sellerReportService.getSellerReport(seller);
+        return new ResponseEntity<>(sellerReport,HttpStatus.OK);
+
+    }
 
     @GetMapping
     public ResponseEntity<List<Seller>> getAllSellers(@RequestParam(required = false) AccountStatus status ) throws Exception {
